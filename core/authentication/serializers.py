@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'email', 'username', 'is_verified', 'is_active', 'auth_provider','created_at')
+        fields = ('id', 'email', 'username', 'is_verified', 'is_active', 'auth_provider','created_at', 'picture')
 
 class CustomLoginSerializer(LoginSerializer):
     pass
@@ -36,7 +36,6 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
 
     def validate_auth_token(self, auth_token):
         user_data = google.Google.validate(auth_token)
-        print(user_data, '---------------')
         try:
             user_data['sub']
         except:
@@ -47,11 +46,12 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
         if user_data['aud'] != "334091573966-uf7c4ubsorjvg3sp5euhdu3qdcddo9nk.apps.googleusercontent.com":
 
             raise AuthenticationFailed('oops, who are you?')
-
+        print(user_data)
         user_id = user_data['sub']
         email = user_data['email']
+        picture = user_data['picture']
         name = user_data['name']
         provider = 'google'
 
         return register_social_user(
-            provider=provider, user_id=user_id, email=email, name=name)
+            provider=provider, user_id=user_id, email=email, name=name, picture=picture)

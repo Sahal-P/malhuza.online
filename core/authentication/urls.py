@@ -1,8 +1,7 @@
 
-from django.contrib import admin
 from django.urls import path
 from authentication import views
-from authentication.views import GoogleLogin, GoogleSocialAuthView, CustomUserDetailsView
+from authentication.views import GoogleSocialAuthView, CustomUserDetailsView
 
 urlpatterns = [
     path('', views.TestAPIview.as_view()),

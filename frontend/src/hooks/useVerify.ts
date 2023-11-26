@@ -1,7 +1,7 @@
-import { useVerifyQuery } from '@/redux/features/authApiSlice';
-import { finishedInitialLoad, setAuth } from '@/redux/features/authSlice';
-import { useAppDispatch } from '@/redux/hooks';
-import { useEffect } from 'react';
+// import { useVerifyQuery } from '@/redux/features/authApiSlice';
+// import { finishedInitialLoad, setAuth } from '@/redux/features/authSlice';
+// import { useAppDispatch } from '@/redux/hooks';
+// import { useEffect } from 'react';
 
 export default function useVerify() {
     // const dispatch = useAppDispatch()

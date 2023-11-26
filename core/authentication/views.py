@@ -14,18 +14,9 @@ from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSer
 # Create your views here.
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from dj_rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
 class CustomUserDetailsView(UserDetailsView):
     serializer_class = CustomUserSerializer
-
-
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
-    callback_url = "http://127.0.0.1:8000/api/auth/google/callback/"
-    client_class = OAuth2Client
     
 class GoogleSocialAuthView(GenericAPIView):
 
@@ -48,5 +39,4 @@ class GoogleSocialAuthView(GenericAPIView):
 class TestAPIview(APIView):
     authentication_classes = [JWTAuthentication]
     def post(self, request):
-        print(request.user, '00000000000000000')
         return JsonResponse({'test_api': "test"})

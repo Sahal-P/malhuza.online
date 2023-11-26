@@ -1,13 +1,13 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { setAuth } from "@/redux/features/authSlice";
+// import { useAppDispatch } from "@/redux/hooks";
+// import { setAuth } from "@/redux/features/authSlice";
 
-import {useCookies} from 'react-cookie'
+// import {useCookies} from 'react-cookie'
 
 export default function useLogin() {
-  const [cookie, setCookie] = useCookies(["token"])
-    const dispatch = useAppDispatch()
+  // const [cookie, setCookie] = useCookies(["token"])
+  //   const dispatch = useAppDispatch()
   const [formData, setFormData] = useState({
     email: "",
     password: "",

@@ -6,7 +6,7 @@ export const makeStore = () =>
         reducer: {
             auth: authReducer
         },
-        middleware: getDefaultMiddleware,
+        middleware: getDefaultMiddleware(),
         devTools: true
     })
 

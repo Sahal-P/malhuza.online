@@ -15,7 +15,7 @@ def generate_username(name):
         return generate_username(random_username)
 
 
-def register_social_user(provider, user_id, email, name):
+def register_social_user(provider, user_id, email, name, picture):
     filtered_user_by_email = User.objects.filter(email=email)
 
     if filtered_user_by_email.exists():
@@ -24,7 +24,6 @@ def register_social_user(provider, user_id, email, name):
 
             registered_user = authenticate(
                 email=email, password="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")
-            print(registered_user,'-----------------')
             return {
                 'username': registered_user.username,
                 'email': registered_user.email,
@@ -37,7 +36,7 @@ def register_social_user(provider, user_id, email, name):
     else:
         user = {
             'username': generate_username(name), 'email': email,
-            'password': "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"}
+            'password': "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", 'picture': picture}
         user = User.objects.create_user(**user)
         user.is_verified = True
         user.auth_provider = provider

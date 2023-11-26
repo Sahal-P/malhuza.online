@@ -10,13 +10,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, picture, password=None):
         if username is None:
             raise TypeError('Users should have a username')
         if email is None:
             raise TypeError('Users should have a Email')
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(username=username, email=self.normalize_email(email), picture=picture)
         user.set_password(password)
         user.save()
         return user
@@ -39,6 +39,7 @@ AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
+    picture = models.CharField(max_length=500, default=None, null=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
