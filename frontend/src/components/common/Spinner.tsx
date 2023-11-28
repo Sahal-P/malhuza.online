@@ -1,24 +1,28 @@
-// import cn from "classnames";
-// import { ImSpinner3 } from "react-icons/im";
+import cn from "classnames";
+import { Loader } from "lucide-react";
+import {cva, type VariantProps} from 'class-variance-authority'
 
-// interface Props {
-//     sm?: boolean;
-//     md?: boolean;
-//     lg?: boolean;
-// }
-const Spinner = () => {
-    // const className = cn('animate-spin text-white-300 fill-white-300 mr-2', {
-    //     'w-4 h-4': sm,
-    //     'w-6 h-6': md,
-    //     'w-8 h-8': lg,
-    // });
+const spinnerVariants = cva(
+  "text-muted-foreground animate-spin",
+  {
+    variants: {
+      size: {
+        default: "h-4 w-4",
+        sm: "h-2 w-2",
+        lg: "h-6 w-6",
+        icon: "h-10 w-10",
+      }
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+interface SpinnerProps extends VariantProps<typeof spinnerVariants> {}
+
+const Spinner = ({size}: SpinnerProps) => {
   return (
-    <>
-     <div role="status">
-        {/* <ImSpinner3 className={className} /> */}
-        <span className="sr-only">Loading...</span>
-     </div>
-    </>
+     <Loader className={cn(spinnerVariants({size}))}/>
   );
 };
 

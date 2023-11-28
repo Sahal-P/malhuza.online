@@ -4,6 +4,7 @@ import generateCookieExpirationDates from "@/utils/cookieUtil";
 // import { useDispatch } from "react-redux";
 // import { LOGOUT_USER, SET_LOADING } from "../redux/sagas/types";
 import { toast } from "react-toastify";
+import { PostLogout } from "@/components/utils/helpers";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 // axios.defaults.withCredentials = true;
@@ -30,6 +31,7 @@ axios.interceptors.response.use(
         // const dispatch = useDispatch()
         // dispatch({ type: SET_LOADING, payload: true });
         // dispatch({ type: LOGOUT_USER, payload: {} , navigate });
+        PostLogout()
       }
       if (response.status === 200) {
         return axios(error.config);
@@ -76,3 +78,10 @@ export const LoginWithGoogle = async (credential: string | undefined) =>
   await axios.post(`api/auth/google/`, {
     auth_token: credential,
   });
+
+export const getUser = async () =>
+  await axios.get(`api/auth/user/`);
+
+export const Logout = async () => await axios.post('api/auth/logout/', {'refresh': Cookies.get(import.meta.env.VITE_REFRESH_TOKEN)});
+
+  

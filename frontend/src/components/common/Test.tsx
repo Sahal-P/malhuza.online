@@ -1,13 +1,18 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { googleLogout } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import User from "@/components/common/User";
+import { Button } from "@/components/ui/button";
 
-interface HomeProps {}
+interface TestProps {
+  
+}
 
-const Home: FC<HomeProps> = () => {
-  const navigate = useNavigate();
+const Test: FC<TestProps> = () => {
+    const navigate = useNavigate();
+  const [user, setUser] = useState({})
   const logout = () => {
     googleLogout();
     Cookies.remove(import.meta.env.VITE_ACCESS_TOKEN);
@@ -18,7 +23,7 @@ const Home: FC<HomeProps> = () => {
     axios
       .get("http://127.0.0.1:8000/api/auth/user/")
       .then((res) => {
-        console.log(res);
+        setUser(res.data)
       })
       .catch((err) => {
         console.log(err);
@@ -34,14 +39,19 @@ const Home: FC<HomeProps> = () => {
         console.log(err);
       });
   };
-  return (
-    <div>
-      Home
-      <div onClick={logout}>Logout</div>
-      <div onClick={GetUsr}>Get User</div>
-      <div onClick={test}>test</div>
-    </div>
-  );
-};
+  useEffect(()=>{
 
-export default Home;
+  },[user])
+  return (
+    <>
+  <div className="flex flex-col justify-center items-center gap-5">
+  Home
+  <Button onClick={logout} variant={'destructive'}>Logout</Button>
+  <Button onClick={GetUsr}>Get User</Button>
+  <User user={user}/>
+  <Button isLoading={true} onClick={test} className="bg-blue-600">test</Button>
+</div>
+</>)
+}
+
+export default Test
