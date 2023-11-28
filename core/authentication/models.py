@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
                   'twitter': 'twitter', 'email': 'email'}
 
+THEME_CHOICE = {'dark': 'dark', 'light': 'light'}
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True)
@@ -61,10 +62,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         default_permissions = []
 
-
-
-    def __str__(self):
-        return self.email
+    # def __str__(self):
+    #     return self.email
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)

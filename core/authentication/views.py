@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
-from rest_framework.status import HTTP_200_OK
-from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSerializer
+from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT
+from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSerializer, LogoutSerializer
 # Create your views here.
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -36,7 +36,21 @@ class GoogleSocialAuthView(GenericAPIView):
         data = ((serializer.validated_data)['auth_token'])
         return Response(data, status=HTTP_200_OK)
 
+class LogoutAPIView(GenericAPIView):
+    serializer_class = LogoutSerializer
+
+    authentication_classes = (JWTAuthentication,)
+    
+    def post(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=HTTP_204_NO_CONTENT)
+
 class TestAPIview(APIView):
     authentication_classes = [JWTAuthentication]
     def post(self, request):
+        print(request.user)
         return JsonResponse({'test_api': "test"})
