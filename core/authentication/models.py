@@ -1,9 +1,7 @@
 from django.db import models
-
-# Create your models here.
+import uuid
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
-
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -25,7 +23,7 @@ class UserManager(BaseUserManager):
         if password is None:
             raise TypeError('Password should not be none')
 
-        user = self.create_user(username, email, password)
+        user = self.create_user(username, email, picture=None, password=password)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -38,6 +36,7 @@ AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 THEME_CHOICE = {'dark': 'dark', 'light': 'light'}
 
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     picture = models.CharField(max_length=500, default=None, null=True)
