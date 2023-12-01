@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { toast } from "sonner";
 
 interface UserContextType {
   user: User | null;
@@ -30,13 +31,18 @@ const UserProvider: FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    getUser()
+    const promis = getUser()
       .then((res) => {
         setUser(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
+      toast.promise(promis, {
+        loading: 'loading.......',
+        success: "success",
+        error: "Failed",
+      })
   }, []);
 
   return (

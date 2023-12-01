@@ -1,8 +1,13 @@
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react";
 import React, { ElementRef, FC, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
+import { CreateDocument, docsTest } from "@/apis";
+import Item from "./Item";
+import { toast } from "sonner";
+import DocumentList from "./DocumentList";
+import useSidebar from "@/hooks/useSidebar";
 
 interface NavigationProps {}
 
@@ -14,6 +19,7 @@ const Navigation: FC<NavigationProps> = () => {
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  const [Documents, setDocuments] = useState<Array<object>>([]);
 
   useEffect(() => {
     if (isMobile) {
@@ -22,6 +28,18 @@ const Navigation: FC<NavigationProps> = () => {
       resetWidth()
     }
   }, [isMobile])
+  const {data} = useSidebar()
+  console.log(data);
+  
+  useEffect(() => {
+    docsTest().then((res) => {
+      setDocuments(res.data)
+      
+    }).catch((err) => {
+      console.log(err);
+      
+    })
+  },[])
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
@@ -76,6 +94,22 @@ const Navigation: FC<NavigationProps> = () => {
       setTimeout(() => setIsResetting(false), 300)
     }
   }
+
+  const handleCreateDocument = () => {
+    const promis = CreateDocument('Untitled').then((res) => {
+      console.log(res);
+      setDocuments([...Documents, res.data])
+    })
+    .catch((err) => {
+      console.log(err);
+      
+    })
+    toast.promise(promis, {
+      loading: "creating note",
+      success: "note created successfuly",
+      error: 'failed to create note'
+    })
+  }
   return (
     <>
       <aside
@@ -98,9 +132,12 @@ const Navigation: FC<NavigationProps> = () => {
         </div>
         <div>
           <UserItem />
+          <Item onClick={() => {}} isSearch label="Search" icon={Search}/>
+          <Item onClick={() => {}}  label="Settings" icon={Settings}/>
+          <Item onClick={handleCreateDocument} label="New page" icon={PlusCircle}/>
         </div>
         <div className="mt-4">
-          <p>Documents</p>
+          <DocumentList/>
         </div>
         <div onMouseDown={handleMouseDown} onClick={resetWidth} className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0" />
       </aside>

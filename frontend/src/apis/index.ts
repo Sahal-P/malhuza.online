@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import generateCookieExpirationDates from "@/utils/cookieUtil";
 // import { useDispatch } from "react-redux";
 // import { LOGOUT_USER, SET_LOADING } from "../redux/sagas/types";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { PostLogout } from "@/components/utils/helpers";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -14,23 +14,22 @@ let needRefresh = false;
 axios.interceptors.response.use(
   (resp) => resp,
   async (error) => {
+    
     const RefreshToken = Cookies.get(import.meta.env.VITE_REFRESH_TOKEN);
     if (error.response.status === 401 && !needRefresh && RefreshToken) {
       needRefresh = true;
-      const response = await axios.post("token/refresh/", {
+      const response = await axios.post("api/auth/token/refresh/", {
         refresh: RefreshToken,
       });
+
       if (response.status === 200) {
         const { oneDayLater } = generateCookieExpirationDates();
         Cookies.set(
           import.meta.env.VITE_ACCESS_TOKEN,
-          response.data.access_token,
+          response.data.access,
           { expires: oneDayLater }
         );
       } else {
-        // const dispatch = useDispatch()
-        // dispatch({ type: SET_LOADING, payload: true });
-        // dispatch({ type: LOGOUT_USER, payload: {} , navigate });
         PostLogout()
       }
       if (response.status === 200) {
@@ -47,7 +46,10 @@ axios.interceptors.response.use(
         status === 500 ||
         status === 409
       ) {
-        return toast.warn(error.response?.data?.detail);
+        return toast.error(error.response?.data?.detail, {style: {
+          color: 'white',
+          backgroundColor: 'red'
+        }});
       }
     }
 
@@ -84,4 +86,5 @@ export const getUser = async () =>
 
 export const Logout = async () => await axios.post('api/auth/logout/', {'refresh': Cookies.get(import.meta.env.VITE_REFRESH_TOKEN)});
 
-  
+export const docsTest = async () => await axios.post('api/docs/');
+export const CreateDocument = async (title: string) => await axios.post('api/docs/create/', {title});

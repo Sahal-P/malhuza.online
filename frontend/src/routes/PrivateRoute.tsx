@@ -11,7 +11,7 @@ const PrivateRoute: FC<PrivateRouteProps> = () => {
   const Refresh = Cookies.get(import.meta.env.VITE_REFRESH_TOKEN)
   
   if (!Access && !Refresh ) {    
-    return <Navigate to={"/sign-in"} />;
+    return <Navigate to={"/page"} />;
   }
   return <Outlet />;
 }
