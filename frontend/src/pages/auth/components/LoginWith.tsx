@@ -29,6 +29,8 @@ export default function LoginWith() {
                     res.data.tokens.access,
                     {
                       expires: oneDayLater,
+                      sameSite: "Strict",
+                      secure: true
                     }
                   );
                   Cookies.set(
@@ -36,9 +38,11 @@ export default function LoginWith() {
                     res.data.tokens.refresh,
                     {
                       expires: sevenDaysLater,
+                      sameSite: "Strict",
+                      secure: true
                     }
                   );
-                  navigate("/");
+                  navigate("/document");
                 });
               } catch (error) {
                 //

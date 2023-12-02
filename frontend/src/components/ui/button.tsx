@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Loader2 } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
 import Spinner from "../common/Spinner"
@@ -45,6 +44,8 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, isLoading, children, asChild = false, ...props }, ref) => {
+
+      // @ts-ignore
     const Comp = asChild ? Slot : "button"
     return (
       <button

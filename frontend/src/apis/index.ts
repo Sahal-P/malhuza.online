@@ -31,6 +31,16 @@ axios.interceptors.response.use(
         );
       } else {
         PostLogout()
+        toast.error("Your Session Has Expired Please Login Again", {
+          action: {
+            label: 'Log in',
+            onClick: () => window.location.href = "/sign-in"
+          },
+          duration: 7000,
+          position:"top-center",
+          onAutoClose: () => window.location.href = "/sign-in"
+        })
+        
       }
       if (response.status === 200) {
         return axios(error.config);

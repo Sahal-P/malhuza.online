@@ -3,7 +3,7 @@ import { googleLogout } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import User from "@/components/common/User";
+// import User from "@/components/common/User";
 import { Button } from "@/components/ui/button";
 
 interface TestProps {
@@ -48,7 +48,7 @@ const Test: FC<TestProps> = () => {
   Home
   <Button onClick={logout} variant={'destructive'}>Logout</Button>
   <Button onClick={GetUsr}>Get User</Button>
-  <User user={user}/>
+  {/* <User user={user}/> */}
   <Button isLoading={true} onClick={test} className="bg-blue-600">test</Button>
 </div>
 </>)

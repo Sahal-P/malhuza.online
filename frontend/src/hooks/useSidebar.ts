@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-interface useSidebarProps {}
 
 const useSidebar = () => {
   return useQuery({

@@ -20,7 +20,6 @@ const Navigation: FC<NavigationProps> = () => {
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
   const [Documents, setDocuments] = useState<Array<object>>([]);
-
   useEffect(() => {
     if (isMobile) {
       collapse()
@@ -28,9 +27,9 @@ const Navigation: FC<NavigationProps> = () => {
       resetWidth()
     }
   }, [isMobile])
-  const {data} = useSidebar()
-  console.log(data);
-  
+  const {data: sideBarData} = useSidebar()
+  console.log(sideBarData);
+    
   useEffect(() => {
     docsTest().then((res) => {
       setDocuments(res.data)
@@ -138,6 +137,9 @@ const Navigation: FC<NavigationProps> = () => {
         </div>
         <div className="mt-4">
           <DocumentList/>
+          {/* {isFetched && sideBarData?.map((doc) => (
+            <p>{doc?.title}</p>
+          ))} */}
         </div>
         <div onMouseDown={handleMouseDown} onClick={resetWidth} className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0" />
       </aside>

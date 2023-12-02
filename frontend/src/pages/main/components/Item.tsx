@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronRight, LucideIcon } from "lucide-react";
-import { FC } from "react";
+// import { FC } from "react";
 
 interface ItemProps {
   id?: string;
@@ -16,18 +16,18 @@ interface ItemProps {
   icon: LucideIcon;
 }
 
-const Item: FC<ItemProps> = ({
+const Item = ({
   id,
   documentIcon,
   active,
   expanded,
   level = 0,
-  onExpand,
+  // onExpand,
   isSearch,
   label,
   onClick,
   icon: Icon,
-}) => {
+}: ItemProps) => {
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   return (
     <div
