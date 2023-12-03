@@ -16,3 +16,11 @@ class CreateDocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ('id', 'title', 'user_id', 'parentDocument', 'content', 'coverImage','icon', 'isArchived', 'isPublished')
+
+class GetDocumentsSerializer(serializers.ModelSerializer):
+    user_id = serializers.UUIDField()
+    parentDocument_id = serializers.CharField(allow_null=True, required=False)
+    class Meta:
+        model = Document
+        fields = ('user_id', 'parentDocument_id')
+        
