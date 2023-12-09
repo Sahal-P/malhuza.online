@@ -8,7 +8,7 @@ from . import google
 from .register import register_social_user
 import os
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-
+from authentication.models import User
 from django.contrib.auth import get_user_model
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -17,20 +17,26 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'username', 'is_verified', 'is_active', 'auth_provider','created_at', 'picture')
 
 class CustomLoginSerializer(LoginSerializer):
-    pass
-    # def get_auth_user(self, username, email, password):
-        # if 'allauth' in settings.INSTALLED_APPS:
-
-        #     # When `is_active` of a user is set to False, allauth tries to return template html
-        #     # which does not exist. This is the solution for it. See issue #264.
-        #     try:
-        #         val = self._validate_email(email, password)
-        #         print(val)
-        #         return val
-        #     except url_exceptions.NoReverseMatch:
-        #         msg = _('Unable to log in with provided credentials.')
-        #         print(msg)
-        # return self.get_auth_user_using_orm(username, email, password)
+    
+    def _validate_email(self, email, password):
+        if email and password:
+            try:
+                user = User.objects.get(email=email)
+                if user.check_password(password):
+                    return user
+            except User.DoesNotExist:
+                raise exceptions.NotFound('Invalid email or password')
+        else:
+            msg = _('Must include "email" and "password".')
+            raise exceptions.ValidationError(msg)
+    
+    def get_auth_user_using_allauth(self, username, email, password):
+        return self._validate_email(email, password)
+    
+class RegisterSerializer(serializers.Serializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class GoogleSocialAuthSerializer(serializers.Serializer):
     auth_token = serializers.CharField()

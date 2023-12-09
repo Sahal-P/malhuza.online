@@ -1,23 +1,14 @@
 from pathlib import Path
 from datetime import timedelta
 import os
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-n%-j%r4&chjx42x67m8u!8&gf@_5$*1))7^wktbj&jxfk06ng+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -133,7 +124,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
-    'LOGIN_SERIALIZER': 'authentication.serializers.CustomLoginSerializer',
+    'EMAIL_VERIFICATION': 'optional'
 }
 
 if DEBUG:
@@ -144,8 +135,8 @@ else:
         "http://127.0.0.1:3000/",
     ]
     
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-# ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED=True
 BASE_FRONTEND_URL = os.environ.get('DJANGO_BASE_FRONTEND_URL', default='http://localhost:3000')
 GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
 GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
