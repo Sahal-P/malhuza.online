@@ -5,6 +5,7 @@ from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
 from rest_framework_simplejwt.views import TokenVerifyView
+from common.types import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.generics import GenericAPIView
@@ -12,7 +13,6 @@ from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT
 from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSerializer, LogoutSerializer
 # Create your views here.
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class CustomUserDetailsView(UserDetailsView):
@@ -41,7 +41,7 @@ class LogoutAPIView(GenericAPIView):
 
     authentication_classes = (JWTAuthentication,)
     
-    def post(self, request):
+    def post(self, request: Request) -> Response:
 
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -51,6 +51,6 @@ class LogoutAPIView(GenericAPIView):
 
 class TestAPIview(APIView):
     authentication_classes = [JWTAuthentication]
-    def post(self, request):
+    def post(self, request: Request) -> Response:
         print(request.user)
-        return JsonResponse({'test_api': "test"})
+        return Response({'test_api': "test"})
