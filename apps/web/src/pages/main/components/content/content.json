@@ -1,0 +1,86 @@
+{
+  "fc294d60-15ce-4740-abf0-f96f8937d8b7": {
+  "value": {
+      "value": {
+          "id": "fc294d60-15ce-4740-abf0-f96f8937d8b7",
+          "version": 2,
+          "type": "text",
+          "properties": {
+              "title": [
+                  [
+                      "Here are three versions of a view that retrieves a list of books and their authors using the Django ORM. The first version is a simple implementation that retrieves the data using two separate queries, the second version optimizes the queries using "
+                  ],
+                  [
+                      "select_related()",
+                      [
+                          [
+                              "c"
+                          ]
+                      ]
+                  ],
+                  [
+                      " and the third version optimizes the queries using "
+                  ],
+                  [
+                      "prefetch_related()",
+                      [
+                          [
+                              "c"
+                          ]
+                      ]
+                  ],
+                  [
+                      ":"
+                  ]
+              ]
+          },
+          "created_time": 1702354976074,
+          "last_edited_time": 1702354976164,
+          "parent_id": "4cb7afaa-9833-439c-80c1-c43122a54a5f",
+          "parent_table": "block",
+          "alive": true,
+          "created_by_table": "notion_user",
+          "created_by_id": "39e960ac-cae5-4f2f-af2f-88e0720c2b83",
+          "last_edited_by_table": "notion_user",
+          "last_edited_by_id": "39e960ac-cae5-4f2f-af2f-88e0720c2b83",
+          "space_id": "58bcfc6d-1fa4-4c14-90a0-685d2b2cf732"
+      },
+      "role": "editor"
+  }
+},
+"9dc427a0-5963-4d4c-93cc-46ed42cbfd8c": {
+"value": {
+    "value": {
+        "id": "9dc427a0-5963-4d4c-93cc-46ed42cbfd8c",
+        "version": 2,
+        "type": "code",
+        "properties": {
+            "title": [
+                [
+                    "# Version 1 - Simple implementation\ndef book_list(request):\n    books = Book.objects.all()\n    context = {'books': books}\n    return render(request, 'book_list.html', context)\n\n# Version 2 - Optimized implementation using select_related()\ndef book_list(request):\n    books = Book.objects.select_related('author').all()\n    context = {'books': books}\n    return render(request, 'book_list.html', context)\n\n# Version 3 - Optimized implementation using prefetch_related()\ndef book_list(request):\n    books = Book.objects.prefetch_related('author').all()\n    return render(request, 'book_list.html', {'books': books})\n\n"
+                ]
+            ],
+            "language": [
+                [
+                    "Python"
+                ]
+            ]
+        },
+        "format": {
+            "code_wrap": true
+        },
+        "created_time": 1702354976074,
+        "last_edited_time": 1702354976164,
+        "parent_id": "4cb7afaa-9833-439c-80c1-c43122a54a5f",
+        "parent_table": "block",
+        "alive": true,
+        "created_by_table": "notion_user",
+        "created_by_id": "39e960ac-cae5-4f2f-af2f-88e0720c2b83",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "39e960ac-cae5-4f2f-af2f-88e0720c2b83",
+        "space_id": "58bcfc6d-1fa4-4c14-90a0-685d2b2cf732"
+    },
+    "role": "editor"
+}
+}
+}

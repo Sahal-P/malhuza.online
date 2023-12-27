@@ -1,0 +1,13 @@
+Django
+djangorestframework
+celery[redis]
+blurhash-python
+Pillow
+boto3
+python-decouple
+djangorestframework-simplejwt
+django-allauth
+dj-rest-auth[with_social]
+django-cors-headers
+google-auth
+psycopg2-binary

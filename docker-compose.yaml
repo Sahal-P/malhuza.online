@@ -7,11 +7,11 @@ version: "3"
 services:
   backend:
     build:
-      context: ./core
+      context: ./apps/api/core
       dockerfile: Dockerfile
     command: /app/start.sh
     volumes:
-      - ./core:/app
+      - ./apps/api/core:/app
     ports:
       - 8000:8000
       # - "8001:8000"   # Port mapping for the second replica
@@ -56,10 +56,12 @@ services:
     #   - my_network
 
   worker:
-    build: ./core
+    build: 
+      context: ./apps/api/core
+      dockerfile: Dockerfile
     command: /app/worker.sh
     volumes:
-      - ./core:/app
+      - ./apps/api/core:/app
     depends_on:
       - redis
       - postgresql
