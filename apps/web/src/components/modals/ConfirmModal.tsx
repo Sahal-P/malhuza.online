@@ -12,11 +12,13 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface ConfirmModalProps {
+  title: string;
+  description: string;
   children: React.ReactNode;
   onConfirm: () => void;
 }
 
-const ConfirmModal: FC<ConfirmModalProps> = ({ children, onConfirm }) => {
+const ConfirmModal: FC<ConfirmModalProps> = ({ children, onConfirm, title, description }) => {
     const handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation()
         onConfirm()
@@ -29,10 +31,10 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ children, onConfirm }) => {
       <AlertDialogContent className="dark:bg-document_bg">
         <AlertDialogHeader>
             <AlertDialogTitle>
-                Are you absolutely sure?
+                {title}
             </AlertDialogTitle>
             <AlertDialogDescription>
-                This action cannot be undone.
+                {description}
             </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
