@@ -4,6 +4,7 @@ celery[redis]
 blurhash-python
 Pillow
 boto3
+boto3-stubs[essential]
 python-decouple
 djangorestframework-simplejwt
 django-allauth
