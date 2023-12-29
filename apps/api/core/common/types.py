@@ -1,4 +1,4 @@
-from django.http import HttpRequest
+from rest_framework.request import Request as HttpRequest
 from document.models import Document
 
 class Request(HttpRequest):
