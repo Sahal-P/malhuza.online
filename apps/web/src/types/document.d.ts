@@ -1,52 +1,47 @@
 import { z, ZodError } from 'zod';
 
-// Define the interface for the Document model
-interface Document {
+interface BaseDocument {
   id: string;
   title: string;
+  is_archived: boolean;
+  is_published: boolean;
+}
+
+interface Document extends BaseDocument {
   user_id: string;
-  parentDocument_id?: string | null;
+  parent_document_id?: string | null;
   content?: string | null;
-  coverImage?: string | null;
-  coverImageBlurHash?: string | null;
+  cover_image?: string | null;
+  cover_image_blurhash?: string | null;
   icon?: string | null;
-  isArchived: boolean;
-  isPublished: boolean;
-  createdAt: string
+  created_at: string;
 }
 
-interface SidebarDocument {
-  id: string;
-  title: string;
+interface SidebarDocument extends BaseDocument {
   user_id: string;
-  parentDocument_id?: string | null;
+  parent_document_id?: string | null;
   icon?: string;
-  isArchived: boolean;
-  isPublished: boolean;
-  createdAt: string
+  created_at: string;
 }
 
-interface ArchiveDocument {
-  id: string;
-  title: string;
+interface ArchiveDocument extends BaseDocument {
   icon?: string;
-  isArchived: boolean;
-  isPublished: boolean;
 }
+
 // Define the Zod validator for the Document type
 export const DocumentValidator = z.object({
   title: z.string().max(355).optional(),
   user_id: z.string(),
-  parentDocument_id: z.string().nullable(),
+  parent_document_id: z.string().nullable(),
   content: z.string().nullable(),
-  coverImage: z.string().nullable(),
+  cover_image: z.string().nullable(),
   icon: z.string().nullable(),
-  isArchived: z.boolean(),
-  isPublished: z.boolean(),
+  is_archived: z.boolean(),
+  is_published: z.boolean(),
 });
 
 // Validate a document against the Zod type
-export const validateDocument = (data: any): Document => {
+export const validateDocument = (data): Document => {
   try {
     return DocumentValidator.parse(data);
   } catch (error) {
@@ -62,7 +57,7 @@ export type Document = z.infer<typeof DocumentValidator>
 // {
 //   title: 'Sample Document',
 //   user_id: 'user_id_here',
-//   parentDocument_id: 'parent_document_id_here',
+//   parent_document_id: 'parent_document_id_here',
 //   content: 'This is the content.',
 //   coverImage: 'cover_image_url',
 //   icon: 'icon_url',
