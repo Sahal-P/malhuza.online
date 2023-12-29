@@ -11,24 +11,24 @@ class Document(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     title = models.CharField(max_length=355, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='id', db_index=True)
-    parentDocument = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, db_index=True)
+    parent_document = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, db_index=True)
     content = models.TextField(null=True, blank=True)
-    coverImage = models.CharField(max_length=500, null=True, blank=True)
-    coverImageBlurHash = models.CharField(max_length=150, null=True, blank=True)
+    cover_image = models.CharField(max_length=500, null=True, blank=True)
+    cover_image_blurhash = models.CharField(max_length=150, null=True, blank=True)
     icon = models.CharField(max_length=500, null=True, blank=True)
-    isArchived = models.BooleanField(default=False)
-    isPublished = models.BooleanField(default=False)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    is_archived = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     @transaction.atomic
-    def update_archived_status_recursive(self, isArchived):
+    def update_archived_status_recursive(self, is_archived):
         try:
-            self.isArchived = isArchived
+            self.is_archived = is_archived
             self.save()
 
             children = Document.objects.filter(parentDocument=self)
             for child in children:
-                child.update_archived_status_recursive(isArchived)
+                child.update_archived_status_recursive(is_archived)
         except Exception as e:
             raise e
         
@@ -43,9 +43,9 @@ class Document(models.Model):
     @transaction.atomic
     def restore_archived_parent_recursive(self):
         try:
-            if self.parentDocument_id is not None:
-                parent = Document.objects.get(id=self.parentDocument_id)
-                parent.isArchived = False
+            if self.parent_document_id is not None:
+                parent = Document.objects.get(id=self.parent_document_id)
+                parent.is_archived = False
                 parent.save()
                 parent.restore_archived_parent_recursive()
         except Document.DoesNotExist:
@@ -57,7 +57,7 @@ class Document(models.Model):
     @transaction.atomic
     def delete_recursive(self):
         try:
-            children = Document.objects.filter(parentDocument=self)
+            children = Document.objects.filter(parent_document=self)
             for child in children:
                 child.delete_recursive()
             self.delete()
