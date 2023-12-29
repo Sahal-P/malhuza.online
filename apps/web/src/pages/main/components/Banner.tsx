@@ -35,7 +35,7 @@ const Banner: FC<BannerProps> = ({ documentId, isCollapsed }) => {
       >
         Restore page
       </Button>
-      <ConfirmModal onConfirm={onRemove}>
+      <ConfirmModal title="Are you sure?" description="You want to delete this item, this action cannot be undone."  onConfirm={onRemove}>
       <Button
         size={"sm"}
         variant={"outline"}

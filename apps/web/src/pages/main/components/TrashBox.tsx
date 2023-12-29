@@ -106,7 +106,7 @@ const TrashBox: FC<TrashBoxProps> = () => {
               >
                 <Undo className="h-4 w-4 text-muted-foreground" />
               </div>
-              <ConfirmModal onConfirm={() => onRemove(document.id)}>
+              <ConfirmModal title="Are you sure?" description="You want to delete this item, this action cannot be undone." onConfirm={() => onRemove(document.id)}>
                 <div
                   role="button"
                   className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
