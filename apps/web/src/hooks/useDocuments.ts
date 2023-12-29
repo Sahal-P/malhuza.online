@@ -23,10 +23,10 @@ const defaultDocument = {
   title: "",
   user_id: "",
   icon: "",
-  parentDocument_id: "",
-  createdAt: "",
-  isArchived: false,
-  isPublished: false,
+  parent_document_id: "",
+  created_at: "",
+  is_archived: false,
+  is_published: false,
 };
 
 export const useSelectedDocument = create<SelectedDocument>((set, get) => ({
@@ -34,13 +34,13 @@ export const useSelectedDocument = create<SelectedDocument>((set, get) => ({
   isLoading: false,
   titleRenamed: "",
   getDocument: () => get().document,
-  setDocument: (newDocument) => set({ document: newDocument }),
+  setDocument: (document) => set({ document }),
   setLoading: (isLoading) => set({isLoading}),
   setDocumentDefault: () => set({ document: defaultDocument }),
   setDocumentTitle: (title) =>
     set((state) => ({ document: { ...state?.document, title } })),
-  setDocumentCoverImage: (coverImage) =>
-    set((state) => ({ document: { ...state.document, coverImage } })),
+  setDocumentCoverImage: (cover_image) =>
+    set((state) => ({ document: { ...state.document, cover_image } })),
   setDocumentIcon: (icon) =>
     set((state) => ({ document: { ...state.document, icon } })),
   setTitleRename: (title) => set({ titleRenamed: title }),
@@ -48,22 +48,22 @@ export const useSelectedDocument = create<SelectedDocument>((set, get) => ({
 
 
 const useDocuments = <DocumentType>({
-  parentDocument_id,
+  parent_document_id,
   level,
   filter_type = null,
 }: {
-  parentDocument_id?: string;
+  parent_document_id?: string;
   level?: number;
   filter_type?: string | null;
 }) => {
   return useQuery({
-    queryKey: [parentDocument_id, "Documents", level],
+    queryKey: [parent_document_id, "Documents", level],
     enabled: true,
     queryFn: async () => {
       try {
         const { data } = await axios.get<DocumentType[]>("api/docs/", {
           params: {
-            parentDocument_id: parentDocument_id,
+            parent_document_id: parent_document_id,
             filter_type: filter_type,
           },
         });

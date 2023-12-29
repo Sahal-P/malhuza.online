@@ -55,12 +55,12 @@ const Document: FC<DocumentProps> = () => {
       {!isLoading ? (
         <div className="pb-40 ">
           <Cover
-            url={document?.coverImage}
-            blurhash={document?.coverImageBlurHash}
+            url={document?.cover_image}
+            blurhash={document?.cover_image_blurhash}
           />
           <div className="md:max-w-3xl lg:max-w-4xl mx-auto ">
             <Suspense fallback={<ToolBarSkeleton />}>
-              <Toolbar initialData={document} />
+              <Toolbar initial_data={document} />
             </Suspense>
             {/* <Suspense fallback={<p>Loading...</p>}>
         <CodeBlock codeString={code} language="python" />

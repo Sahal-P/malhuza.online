@@ -9,17 +9,17 @@ import { FileIcon } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 interface TitleProps {
-  initialData: Document;
+  initial_data: Document;
 }
 
-const Title = ({ initialData }: TitleProps) => {
+const Title = ({ initial_data }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [title, setTitle] = useState(initialData?.title || "Untitled");
+  const [title, setTitle] = useState(initial_data?.title || "Untitled");
   const [isEditing, setIsEditing] = useState(false);
   const { setTitleRename, setDocumentTitle } = useSelectedDocument();
   const { mutate: update, isSuccess } = useUpdateDocument();
   const enableInput = () => {
-    setTitle(initialData?.title);
+    setTitle(initial_data?.title);
     setIsEditing(true);
     setTimeout(() => {
       inputRef.current?.focus();
@@ -37,7 +37,7 @@ const Title = ({ initialData }: TitleProps) => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    update({ id: initialData?.id, title: event.target.value || DEFAULT_TITLE });
+    update({ id: initial_data?.id, title: event.target.value || DEFAULT_TITLE });
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,9 +47,9 @@ const Title = ({ initialData }: TitleProps) => {
   };
   return (
     <div className="flex items-center gap-x-1 ">
-      {initialData?.icon ? (
+      {initial_data?.icon ? (
         <p className="shrink-0 h-[18px] text-muted-foreground " >
-            <Emoji unified={initialData.icon} size={18}/>
+            <Emoji unified={initial_data.icon} size={18}/>
         </p>
       ) : (
         <p>
@@ -72,7 +72,7 @@ const Title = ({ initialData }: TitleProps) => {
           size={"sm"}
           className="font-normal h-auto p-1"
         >
-          <span className="truncate">{initialData?.title}</span>
+          <span className="truncate">{initial_data?.title}</span>
         </Button>
       )}
     </div>

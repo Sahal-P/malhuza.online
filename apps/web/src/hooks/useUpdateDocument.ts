@@ -9,7 +9,7 @@ const useUpdateDocument = (id?: string) => {
   // const { setDocumentTitle } = useSelectedDocument();
   return useMutation({
     mutationKey: [id, 'updateDocTitleIcon'],
-    mutationFn: async (document: { id: string; title?: string; icon?: string | null; coverImage?: string | null;  coverImageBlurHash?: string | null; }) => {
+    mutationFn: async (document: { id: string; title?: string; icon?: string | null; cover_image?: string | null;  cover_image_blurhash?: string | null; }) => {
       const response = await axios.put("api/docs/", {
         document
       }, );

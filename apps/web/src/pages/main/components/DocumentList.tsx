@@ -36,7 +36,7 @@ const DocumentList: FC<DocumentListProps> = ({
     data: documents,
     isLoading,
     refetch,
-  } = useDocuments<SidebarDocument>({parentDocument_id: parentDocumentId , level: level, filter_type: SIDEBAR });
+  } = useDocuments<SidebarDocument>({parent_document_id: parentDocumentId , level: level, filter_type: SIDEBAR });
   const onRedirect = (documentId: string) => {
     navigate(`/documents/${documentId}`);
   };
@@ -46,7 +46,7 @@ const DocumentList: FC<DocumentListProps> = ({
 
   const onCreate = (id: string) => {
     if (!id) return;
-    createDocumentMutate({ title: DEFAULT_TITLE, parentDocument_id: id });
+    createDocumentMutate({ title: DEFAULT_TITLE, parent_document_id: id });
     if (!expanded[id]) {
       onExpand(id);
     }

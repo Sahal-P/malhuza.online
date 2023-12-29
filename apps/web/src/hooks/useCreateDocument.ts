@@ -7,10 +7,10 @@ const useCreateDocument = (id?: string) => {
   const navigate = useNavigate();
   return useMutation({
     mutationKey: [id, 'createDocs'],
-    mutationFn: async ({ title, parentDocument_id, }: { title: string; parentDocument_id?: string; }) => {
+    mutationFn: async ({ title, parent_document_id, }: { title: string; parent_document_id?: string; }) => {
       const { data } = await axios.post("api/docs/", {
         title,
-        parentDocument_id,
+        parent_document_id,
       });
       navigate(`${data.id}`);
       return data;

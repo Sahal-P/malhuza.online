@@ -53,7 +53,7 @@ const Navbar = ({ Id, isCollapsed, onResetWidth }: NavbarProps) => {
         ) : (
           <div className="flex items-center justify-between w-full ">
             <Suspense fallback={<TitleSkeleton />}>
-              <Title initialData={document} />
+              <Title initial_data={document} />
             </Suspense>
             <div className="flex items-center gap-x-2">
               <Menu documentId={document?.id} />
@@ -61,7 +61,7 @@ const Navbar = ({ Id, isCollapsed, onResetWidth }: NavbarProps) => {
           </div>
         )}
       </nav>
-      {document?.isArchived && (
+      {document?.is_archived && (
         <Banner documentId={document.id} isCollapsed={isCollapsed} />
       )}
     </>
