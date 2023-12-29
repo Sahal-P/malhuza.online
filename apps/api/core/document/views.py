@@ -26,8 +26,8 @@ class DocumentsAPIView(GenericAPIView):
     def get(self, request: Request, *args, **kwargs):
         try:
             request.data["user_id"] = request.user.id
-            request.data["parentDocument_id"] = self.get_query_params(
-                "parentDocument_id"
+            request.data["parent_document_id"] = self.get_query_params(
+                "parent_document_id"
             )
             request.data["filter_type"] = self.get_query_params("filter_type")
             serializer = GetDocumentsSerializer(data=request.data)
@@ -35,7 +35,7 @@ class DocumentsAPIView(GenericAPIView):
             if serializer.is_valid(raise_exception=True):
                 if request.data["filter_type"] == "Archive":
                     documents = Document.objects.filter(
-                        user=serializer.data["user_id"], isArchived=True
+                        user=serializer.data["user_id"], is_archived=True
                     ).only("id", "title", "icon")
                     serialized_data = ArchiveDocumentSerializer(documents, many=True)
                     return Response(
@@ -45,9 +45,9 @@ class DocumentsAPIView(GenericAPIView):
                 elif request.data["filter_type"] == "Sidebar":
                     documents = Document.objects.filter(
                         user=serializer.data["user_id"],
-                        parentDocument=serializer.data["parentDocument_id"],
-                        isArchived=False,
-                    ).exclude(coverImage=True, content=True).order_by('createdAt')
+                        parent_document=serializer.data["parent_document_id"],
+                        is_archived=False,
+                    ).exclude(cover_image=True, content=True).order_by('created_at')
                     serialized_data = SideBarDocumentSerializer(documents, many=True)
                     return Response(
                         data=serialized_data.data, status=status.HTTP_200_OK
@@ -69,9 +69,9 @@ class DocumentsAPIView(GenericAPIView):
                 else:
                     documents = Document.objects.filter(
                         user=serializer.data["user_id"],
-                        parentDocument=serializer.data["parentDocument_id"],
-                        isArchived=False,
-                    ).order_by('createdAt')
+                        parent_document=serializer.data["parent_document_id"],
+                        is_archived=False,
+                    ).order_by('created_at')
                 serialized_data = DocumentSerializer(documents, many=True)
                 return Response(data=serialized_data.data, status=status.HTTP_200_OK)
 
@@ -104,7 +104,7 @@ class DocumentsAPIView(GenericAPIView):
                 document.restore_archived_status_recursive()
             if request.data["type"] == "CoverImage":
                 image = request.data["image"]
-                document.coverImage = image
+                document.cover_image = image
                 document.save()
                 data = {"presigned_url": image}
                 return Response(data=data, status=status.HTTP_200_OK)
