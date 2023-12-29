@@ -1,7 +1,8 @@
 import Image from "@/components/common/Image";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import { useSelectedDocument } from "@/hooks/useDocuments";
-import { useCoverImage } from "@/hooks/useS3FileUpload";
+import { useCoverImage, useS3FileRemove } from "@/hooks/useS3FileUpload";
 import useUpdateDocument from "@/hooks/useUpdateDocument";
 import { cn } from "@/lib/utils";
 import { ImageIcon, X } from "lucide-react";
@@ -16,12 +17,12 @@ interface CoverProps {
 const Cover: FC<CoverProps> = ({ url, blurhash, preview }) => {
   const { setTitleRename, setDocumentCoverImage, document } = useSelectedDocument();
   const coverImage = useCoverImage();
-  const { mutateAsync: updateCoverImage } = useUpdateDocument();
+  const { mutateAsync: removeCoverImage } = useS3FileRemove();
 
   const onRemoveCoverImage = async () => {
     setDocumentCoverImage(null)
-    const {status} = await updateCoverImage({coverImage: null, id: document.id , coverImageBlurHash: null})
-    if (status === 200) {
+    const data = await removeCoverImage({id: document.id })
+    if (data) {
         setTitleRename(document.id);
       }
   }
@@ -54,8 +55,8 @@ const Cover: FC<CoverProps> = ({ url, blurhash, preview }) => {
             <ImageIcon className="h-4 w-4 mr-2" />
             Change cover
           </Button>
+          <ConfirmModal title="Are you sure?" description="You want to remove cover image" onConfirm={onRemoveCoverImage}>
           <Button
-            onClick={onRemoveCoverImage}
             className="text-muted-foreground text-xs"
             variant={"outline"}
             size={"sm"}
@@ -63,6 +64,7 @@ const Cover: FC<CoverProps> = ({ url, blurhash, preview }) => {
             <X className="h-4 w-4 mr-2" />
             Remove
           </Button>
+          </ConfirmModal>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
 
 import Spinner from './Spinner'
+import { toast } from 'sonner';
 
 const variants = {
   base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out',
@@ -28,15 +29,19 @@ type InputProps = {
 
 const ERROR_MESSAGES = {
   fileTooLarge(maxSize: number) {
+    toast.warning(`The file is too large. Max size is ${formatFileSize(maxSize)}.`,{position: "top-center"})
     return `The file is too large. Max size is ${formatFileSize(maxSize)}.`;
   },
   fileInvalidType() {
+    toast.warning(`Invalid file type.`,{position: "top-center"})
     return 'Invalid file type.';
   },
   tooManyFiles(maxFiles: number) {
+    toast.warning(`You can only add ${maxFiles} file(s).`,{position: "top-center"})
     return `You can only add ${maxFiles} file(s).`;
   },
   fileNotSupported() {
+    toast.warning(`The file is not supported.`,{position: "top-center"})
     return 'The file is not supported.';
   },
 };

@@ -12,14 +12,14 @@ import { useCoverImage } from "@/hooks/useS3FileUpload";
 // import encodeImageToBlurhash, { readFileAsDataUrl } from "@/utils/encodeBlurHash";
 
 interface ToolbarProps {
-  initialData: Document;
+  initial_data: Document;
   preview?: boolean;
 }
 
-const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
+const Toolbar: FC<ToolbarProps> = ({ initial_data, preview }) => {
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEdititng, setIsEdititng] = useState(false);
-  const [title, setTitle] = useState(initialData.title);
+  const [title, setTitle] = useState(initial_data.title);
   const { setTitleRename, setDocumentTitle, setDocumentIcon } =
     useSelectedDocument();
   const coverImage = useCoverImage()
@@ -34,13 +34,11 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
   //   inputFileRef.current?.click();
   // };
 
-  
-
   const enableInput = () => {
     if (preview) return;
     setIsEdititng(true);
     setTimeout(() => {
-      setTitle(initialData.title);
+      setTitle(initial_data.title);
       inputRef.current?.focus();
     }, 0);
   };
@@ -55,7 +53,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
 
   const onInput = (value: string) => {
     setTitle(value);
-    update({ id: initialData?.id, title: value || DEFAULT_TITLE });
+    update({ id: initial_data?.id, title: value || DEFAULT_TITLE });
     // update
   };
 
@@ -68,7 +66,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
 
   const onIconSelect = async (icon: string) => {
     setDocumentIcon(icon);
-    const updated = await updateAsync({ id: initialData?.id, icon: icon });
+    const updated = await updateAsync({ id: initial_data?.id, icon: icon });
     if (updated.status === 200) {
       setTitleRename(icon);
     }
@@ -76,19 +74,19 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
 
   const onRemoveIcon = async () => {
     setDocumentIcon(null);
-    const updated = await updateAsync({ id: initialData?.id, icon: null });
+    const updated = await updateAsync({ id: initial_data?.id, icon: null });
     if (updated.status === 200) {
-      setTitleRename(initialData?.id);
+      setTitleRename(initial_data?.id);
     }
   };
 
   return (
     <div className="pl-[54px] group relative">
-      {!!initialData.icon && !preview && (
+      {!!initial_data.icon && !preview && (
         <div className="flex items-center gap-x-2 group/icon pt-6">
           <IconPicker onChange={onIconSelect} >
             <p className="text-6xl hover:opacity-75 transition">
-              <Emoji unified={initialData.icon} size={60} />
+              <Emoji unified={initial_data.icon} size={60} />
             </p>
           </IconPicker>
           <Button
@@ -101,11 +99,11 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
           </Button>
         </div>
       )}
-      {!!initialData.icon && preview && (
-        <p className="text-6xl pt-6">{initialData.icon}</p>
+      {!!initial_data.icon && preview && (
+        <p className="text-6xl pt-6">{initial_data.icon}</p>
       )}
       <div className="opacity-0  group-hover:opacity-100 flex items-center gap-x-1 py-4">
-        {!initialData.icon && !preview && (
+        {!initial_data.icon && !preview && (
           <IconPicker asChild onChange={onIconSelect} >
             <Button
               className="text-muted-foreground text-xs"
@@ -117,7 +115,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
             </Button>
           </IconPicker>
         )}
-        {!initialData.coverImage && !preview && (
+        {!initial_data.cover_image && !preview && (
           <Button
             className="text-muted-foreground text-xs"
             variant={"outline"}
@@ -143,7 +141,7 @@ const Toolbar: FC<ToolbarProps> = ({ initialData, preview }) => {
           onClick={enableInput}
           className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
         >
-          {initialData.title}
+          {initial_data.title}
         </div>
       )}
     </div>
