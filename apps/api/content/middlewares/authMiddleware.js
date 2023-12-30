@@ -1,6 +1,5 @@
-
 const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = process.env; // Replace with your secret key from .env
+const { SECRET_KEY } = process.env; 
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
@@ -15,7 +14,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     req.user = decoded;
-    next(); // Move on to the next middleware or route handler
+    next(); 
   });
 };
 
