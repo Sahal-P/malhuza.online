@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
-
+import { darkDefaultTheme,
+  lightDefaultTheme,
+  Theme as EditorTheme, } from "@blocknote/react";
 type Theme = "dark" | "light" | "system"
 
 type ThemeProviderProps = {
@@ -61,6 +63,39 @@ export function ThemeProvider({
       {children}
     </ThemeProviderContext.Provider>
   )
+}
+
+export const useEditorTheme = () => {
+  const lightTheme = {
+    ...lightDefaultTheme,
+    colors: {
+      ...lightDefaultTheme.colors,
+      editor: {
+        text: lightDefaultTheme.colors.editor.text,
+        background: lightDefaultTheme.colors.editor.background,
+      },
+      highlightColors: lightDefaultTheme.colors.highlightColors,
+    },
+  } satisfies EditorTheme;
+  
+  const darkTheme = {
+    ...darkDefaultTheme,
+    colors: {
+      ...darkDefaultTheme.colors,
+      editor: {
+        text: darkDefaultTheme.colors.editor.text,
+        background: "#191919",
+      },
+      highlightColors: darkDefaultTheme.colors.highlightColors,
+    },
+  } satisfies EditorTheme;
+  
+  const systemTheme = {
+    light: lightTheme,
+    dark: darkTheme,
+  };
+
+  return {systemTheme, lightTheme, darkTheme}
 }
 
 export const useTheme = () => {
