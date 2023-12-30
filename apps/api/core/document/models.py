@@ -26,7 +26,7 @@ class Document(models.Model):
             self.is_archived = is_archived
             self.save()
 
-            children = Document.objects.filter(parentDocument=self)
+            children = Document.objects.filter(parent_document=self)
             for child in children:
                 child.update_archived_status_recursive(is_archived)
         except Exception as e:
