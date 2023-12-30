@@ -1,8 +1,8 @@
 version: "3"
 
-# networks:
-#   my_network:
-#     driver: bridge
+networks:
+  malhuza-network:
+    driver: bridge
 
 services:
   backend:
@@ -16,14 +16,30 @@ services:
       - 8000:8000
       # - "8001:8000"   # Port mapping for the second replica
       # - "8002:8000"   # Port mapping for the third replica
-    # networks:
-    #   - my_network
+    networks:
+      - malhuza-network
     depends_on:
       - postgresql
       - redis
       - rabbitmq
     # deploy:
     #   replicas: 3  # Set the desired number of replicas
+  content:
+    build:
+      context: ./apps/api/content
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./apps/api/content:/app
+    ports:
+      - '4000:4000'
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+    networks:
+      - malhuza-network
+    depends_on:
+      - mongodb
 
   postgresql:
     image: postgres:latest
@@ -36,6 +52,8 @@ services:
       - "5432:5432"
     volumes:
       - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - malhuza-network
   
   rabbitmq:
     image: rabbitmq:management
@@ -43,8 +61,24 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    # networks:
-    #   - my_network
+    networks:
+      - malhuza-network
+
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./apps/api/content/config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: sahal
+      MONGO_INITDB_ROOT_PASSWORD: 09876
+      MONGO_INITDB_DATABASE: content
+    networks:
+      - malhuza-network
 
   redis:
     image: redis
@@ -52,8 +86,8 @@ services:
       - "6379:6379"
     volumes:
     - redis_data:/data
-    # networks:
-    #   - my_network
+    networks:
+      - malhuza-network
 
   worker:
     build: 
@@ -65,9 +99,10 @@ services:
     depends_on:
       - redis
       - postgresql
-    # networks:
-    #   - my_network
+    networks:
+      - malhuza-network
       
 volumes:
   redis_data:
   postgresql_data:
+  mongo_data:
