@@ -6,6 +6,8 @@ import { useSelectedDocument } from "@/hooks/useDocuments";
 import Cover from "./Cover";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense, lazy } from "react";
+import Editor from "./Editor";
+import { useContent } from "@/hooks/useContent";
 
 const Toolbar = lazy(() => import("./Toolbar"));
 
@@ -50,6 +52,17 @@ const Document: FC<DocumentProps> = () => {
   //       books = Book.objects.prefetch_related('author').all()
   //       return render(request, 'book_list.html', {'books': books})
   // `
+  const { data , isFetched} = useContent({document_id: document.id})
+  if (isFetched) {
+
+    // try {
+    //   const jsonArray = JSON.parse(data?.data?.content);
+    //   console.log(jsonArray);
+    // } catch (error) {
+    //   console.error('Error parsing JSON:', error);
+    // }
+  }
+  
   return (
     <>
       {!isLoading ? (
@@ -62,6 +75,9 @@ const Document: FC<DocumentProps> = () => {
             <Suspense fallback={<ToolBarSkeleton />}>
               <Toolbar initial_data={document} />
             </Suspense>
+            {isFetched && <Editor onChange={() => {}} initialContent={JSON.stringify(data?.data?.content)} />}
+           
+            
             {/* <Suspense fallback={<p>Loading...</p>}>
         <CodeBlock codeString={code} language="python" />
         </Suspense> */}
