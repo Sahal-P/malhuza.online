@@ -1,5 +1,5 @@
 const Content = require('../models/content');
-const {contentSchema, paramsSchema} = require('../models/contentSchema')
+const {contentSchema, paramsSchema, contentUpdateSchema} = require('../models/contentSchema')
 
 const contentController = {
   getContent: async (req, res) => {
@@ -36,7 +36,7 @@ const contentController = {
   },
   updateContent: async (req, res) => {
     try {
-      const validationResult = contentSchema.validate(req.body);
+      const validationResult = contentUpdateSchema.validate(req.body);
       if (validationResult.error) {
         return res
           .status(400)
