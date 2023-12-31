@@ -1,9 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 // import { useSelectedDocument } from "./useDocuments";
 import axios from "axios";
+import { toast } from "sonner";
 
 
-export const useContent = ({ document_id }: { document_id: string; }) => {
+export const useContent = ({ document_id }: { document_id?: string; }) => {
     // const { setDocument, setDocumentDefault } = useSelectedDocument();
     return useQuery({
       queryKey: [document_id, "get_content"],
@@ -27,3 +28,25 @@ export const useContent = ({ document_id }: { document_id: string; }) => {
       refetchOnWindowFocus: false,
     });
   };
+
+export const useUpdateContent = (document_id?: string) => {
+    // const { setDocumentTitle } = useSelectedDocument();
+    return useMutation({
+      mutationKey: [document_id, 'updateContent'],
+      mutationFn: async (document: { document_id: string; user_id?: string; content?: string }) => {
+        const response = await axios.put(`http://localhost:4000/content/${document.document_id}`, {
+          document
+        }, );
+        console.log(response);
+        
+        return response;
+      },
+      onSuccess: () => {
+        toast.success("content updated", {duration:1000});
+      },
+      onError: () => {
+        toast.error("Failed to update content", {duration:1000});
+      },
+    });
+  };
+  

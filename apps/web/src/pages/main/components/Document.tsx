@@ -7,7 +7,8 @@ import Cover from "./Cover";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense, lazy } from "react";
 import Editor from "./Editor";
-import { useContent } from "@/hooks/useContent";
+import { useContent, useUpdateContent } from "@/hooks/useContent";
+import { useParams } from "react-router-dom";
 
 const Toolbar = lazy(() => import("./Toolbar"));
 
@@ -34,6 +35,7 @@ export const DocumentSkeleton = () => {
 const Document: FC<DocumentProps> = () => {
   // const { user } = useUser();
   const { document, isLoading } = useSelectedDocument();
+  const {documentId} = useParams()
   // const code = `
   //   # Version 1 - Simple implementation
   //   def book_list(request):
@@ -52,17 +54,8 @@ const Document: FC<DocumentProps> = () => {
   //       books = Book.objects.prefetch_related('author').all()
   //       return render(request, 'book_list.html', {'books': books})
   // `
-  const { data , isFetched} = useContent({document_id: document.id})
-  if (isFetched) {
-
-    // try {
-    //   const jsonArray = JSON.parse(data?.data?.content);
-    //   console.log(jsonArray);
-    // } catch (error) {
-    //   console.error('Error parsing JSON:', error);
-    // }
-  }
-  
+  const { data , isFetched} = useContent({document_id: documentId})
+  const {mutate: updateContent} = useUpdateContent(documentId)
   return (
     <>
       {!isLoading ? (
@@ -75,7 +68,7 @@ const Document: FC<DocumentProps> = () => {
             <Suspense fallback={<ToolBarSkeleton />}>
               <Toolbar initial_data={document} />
             </Suspense>
-            {isFetched && <Editor onChange={() => {}} initialContent={JSON.stringify(data?.data?.content)} />}
+            {isFetched && <Editor onChange={(value: string) => updateContent({document_id: document.id, user_id: document.user_id, content: value})} initialContent={data?.data?.content} />}
            
             
             {/* <Suspense fallback={<p>Loading...</p>}>
