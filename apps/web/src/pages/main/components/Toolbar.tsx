@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Document } from "@/types/document";
 import { ImageIcon, Smile, X } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import React, { ElementRef, FC, useRef, useState } from "react";
+import React, { ElementRef, FC, useEffect, useRef, useState } from "react";
 import useUpdateDocument from "@/hooks/useUpdateDocument";
 import { Emoji } from "emoji-picker-react";
 import { DEFAULT_TITLE } from "@/types/constant";
 import { useSelectedDocument } from "@/hooks/useDocuments";
 import { useCoverImage } from "@/hooks/useS3FileUpload";
+import { useDebounce } from "usehooks-ts";
 // import encodeImageToBlurhash, { readFileAsDataUrl } from "@/utils/encodeBlurHash";
 
 interface ToolbarProps {
@@ -28,7 +29,8 @@ const Toolbar: FC<ToolbarProps> = ({ initial_data, preview }) => {
     isSuccess,
     mutateAsync: updateAsync,
   } = useUpdateDocument();
-  
+  const isMounted = useRef(false);
+  const updateDebounce = useDebounce(title)
   // const handleAddCoverClick = () => {
   //   // Trigger the file input when the button is clicked
   //   inputFileRef.current?.click();
@@ -53,7 +55,7 @@ const Toolbar: FC<ToolbarProps> = ({ initial_data, preview }) => {
 
   const onInput = (value: string) => {
     setTitle(value);
-    update({ id: initial_data?.id, title: value || DEFAULT_TITLE });
+      ({ id: initial_data?.id, title: value || DEFAULT_TITLE });
     // update
   };
 
@@ -79,6 +81,14 @@ const Toolbar: FC<ToolbarProps> = ({ initial_data, preview }) => {
       setTitleRename(initial_data?.id);
     }
   };
+  
+  useEffect(()=> {
+    if (isMounted.current === true) {
+      update({ id: initial_data?.id, title: title || DEFAULT_TITLE });  
+    }
+    isMounted.current = true;
+    
+  },[updateDebounce])
 
   return (
     <div className="pl-[54px] group relative">

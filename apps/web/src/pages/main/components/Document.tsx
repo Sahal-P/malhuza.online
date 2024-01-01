@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 // import { useUser } from "./UserProvider";
 
 // import { useParams } from "react-router-dom";
@@ -9,6 +9,8 @@ import { Suspense, lazy } from "react";
 import Editor from "./Editor";
 import { useContent, useUpdateContent } from "@/hooks/useContent";
 import { useParams } from "react-router-dom";
+import { useDebounce } from "usehooks-ts";
+
 
 const Toolbar = lazy(() => import("./Toolbar"));
 
@@ -33,29 +35,19 @@ export const DocumentSkeleton = () => {
 };
 
 const Document: FC<DocumentProps> = () => {
-  // const { user } = useUser();
   const { document, isLoading } = useSelectedDocument();
-  const {documentId} = useParams()
-  // const code = `
-  //   # Version 1 - Simple implementation
-  //   def book_list(request):
-  //       books = Book.objects.all()
-  //       context = {'books': books}
-  //       return render(request, 'book_list.html', context)
+  const { documentId } = useParams();
+ const [content, setContent] = useState<string | undefined>(undefined)
+  const { mutate: updateContent } = useUpdateContent(documentId);
+  const { isFetched } = useContent({ document_id: documentId, setContent });
 
-  //   # Version 2 - Optimized implementation using select_related()
-  //   def book_list(request):
-  //       books = Book.objects.select_related('author').all()
-  //       context = {'books': books}
-  //       return render(request, 'book_list.html', context)
+  const updateDebounce = useDebounce(content)
 
-  //   # Version 3 - Optimized implementation using prefetch_related()
-  //   def book_list(request):
-  //       books = Book.objects.prefetch_related('author').all()
-  //       return render(request, 'book_list.html', {'books': books})
-  // `
-  const { data , isFetched} = useContent({document_id: documentId})
-  const {mutate: updateContent} = useUpdateContent(documentId)
+  useEffect(() => {
+    if (isFetched) {
+      updateContent({document_id: documentId ?? document.id, content})
+    }    
+  }, [updateDebounce])
   return (
     <>
       {!isLoading ? (
@@ -68,9 +60,16 @@ const Document: FC<DocumentProps> = () => {
             <Suspense fallback={<ToolBarSkeleton />}>
               <Toolbar initial_data={document} />
             </Suspense>
-            {isFetched && <Editor onChange={(value: string) => updateContent({document_id: document.id, user_id: document.user_id, content: value})} initialContent={data?.data?.content} />}
-           
-            
+            {isFetched && (
+              <Editor
+                onChange={(value: string) => {
+                  // updateContent({document_id: document.id, content: value})
+                  setContent(value)
+                }}
+                initialContent={content}
+              />
+            )}
+
             {/* <Suspense fallback={<p>Loading...</p>}>
         <CodeBlock codeString={code} language="python" />
         </Suspense> */}

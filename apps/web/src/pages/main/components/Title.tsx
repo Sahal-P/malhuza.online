@@ -6,7 +6,8 @@ import { DEFAULT_TITLE } from "@/types/constant";
 import { Document } from "@/types/document";
 import { Emoji } from "emoji-picker-react";
 import { FileIcon } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDebounce } from "usehooks-ts";
 
 interface TitleProps {
   initial_data: Document;
@@ -18,6 +19,9 @@ const Title = ({ initial_data }: TitleProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { setTitleRename, setDocumentTitle } = useSelectedDocument();
   const { mutate: update, isSuccess } = useUpdateDocument();
+  const isMounted = useRef(false);
+  const updateDebounce = useDebounce(title)
+  
   const enableInput = () => {
     setTitle(initial_data?.title);
     setIsEditing(true);
@@ -37,7 +41,6 @@ const Title = ({ initial_data }: TitleProps) => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    update({ id: initial_data?.id, title: event.target.value || DEFAULT_TITLE });
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -45,6 +48,13 @@ const Title = ({ initial_data }: TitleProps) => {
       disableInput();
     }
   };
+  useEffect(()=> {
+    if (isMounted.current === true) {
+      update({ id: initial_data?.id, title: title || DEFAULT_TITLE });
+    }
+    isMounted.current = true;
+    
+  },[updateDebounce])
   return (
     <div className="flex items-center gap-x-1 ">
       {initial_data?.icon ? (
