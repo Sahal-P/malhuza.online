@@ -23,22 +23,22 @@ export const useCoverImage = create<CoverImageStore>((set) => ({
 
 
 const useS3FileUpload = () => {
-  return useMutation<S3Response, AxiosError, { file: File; id: string; key?: string; }>({
-    mutationFn: async ({ file, id, key }) => {
+  return useMutation<S3Response, AxiosError, { file: File; id: string; key?: string; isCover?: boolean }>({
+    mutationFn: async ({ file, id, key, isCover }) => {
       // If a file is provided, upload it to S3 first
       const {data: s3} = await axios.get("api/s3/presigned-url", {params: {"file_key": key ? key : file.name}});
       const axiosWithoutInterceptor = axios.create();
       if (s3.presigned_url) {
         const {status} = await axiosWithoutInterceptor.put(s3.presigned_url, file , {headers: {"Content-Type": "multipart/form-data"}});
           if (status === 200) {
-            const image = s3.presigned_url.split('?')[0]
-            const {data} = await axios.patch("api/docs/", {type: "CoverImage", id, image});
-            console.log('django saved',data);
-            
-            return data
+            if (isCover) {
+              const image = s3.presigned_url.split('?')[0]
+              const {data} = await axios.patch("api/docs/", {type: "CoverImage", id, image});            
+              return data
+            }
+            return s3
           }
-          
-          
+
       }
       return s3
       
