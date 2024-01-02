@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/core/style.css";
-import content from './TestContent'
+// import content from './TestContent'
 import { useEditorTheme, useTheme } from "@/components/common/ThemeProvider";
 
 interface EditorProps {
@@ -17,7 +17,8 @@ const Editor: FC<EditorProps> = ({ onChange, initialContent, editable }) => {
     const {lightTheme, darkTheme, systemTheme} = useEditorTheme()
 
 const handleUpload = (file: File) => {
-    const upload = new Promise<string>((resolve, reject) => {
+    console.log(file.name);
+    const upload = new Promise<string>((resolve) => {
         setTimeout(() => {
           resolve("https://s3.eu-north-1.amazonaws.com/async-await.online/media/images/malhuza/jwt_middleware_2%20%282%29%20%281%29.png");
         }, 300);
@@ -28,6 +29,8 @@ const handleUpload = (file: File) => {
 
   const editor: BlockNoteEditor = useBlockNote({
     editable,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     initialContent: initialContent ? JSON.parse(initialContent) as PartialBlock[] : undefined,
     onEditorContentChange: (editor) => {
       onChange(JSON.stringify(editor.topLevelBlocks, null, 2));

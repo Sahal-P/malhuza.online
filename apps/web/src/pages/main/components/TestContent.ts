@@ -1,5 +1,3 @@
-import { PartialBlock } from "@blocknote/core"
-
 const content = [
   {
     "id": "c9cfeeb5-35f8-4fb7-81d8-2603a53b9051",
