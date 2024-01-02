@@ -31,24 +31,27 @@ export default defineConfig({
             {
                 "src": "/logo_j.png",
                 "sizes": "192x192",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose": "any"
             },
             {
                 "src": "/logo_j_dark.png",
                 "sizes": "256x256",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose": "maskable"
             },
             // {
             //     "src": "/icon-384x384.png",
             //     "sizes": "384x384",
             //     "type": "image/png"
             // },
-            // {
-            //     "src": "/icon-512x512.png",
-            //     "sizes": "512x512",
-            //     "type": "image/png"
-            // }
+            {
+                "src": "/logo_j.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            },
         ],
+        
     },
     })
   ],
