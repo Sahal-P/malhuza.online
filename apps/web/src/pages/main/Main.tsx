@@ -43,7 +43,7 @@ const Main: FC<MainProps> = () => {
   return (
     <UserProvider>
 
-   <div className="h-screen flex dark:bg-[#1F1F1F] ">
+   <div className="h-screen flex dark:bg-[#1F1F1F] overflow-hidden">
     <Navigation/>
       <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg scrollbar-thin scrollbar-thumb-secondary">
         {/* <div className="w-full h-full  flex justify-center items-center z-[9999999999]">
