@@ -18,30 +18,15 @@ import WelcomeDocument from "./pages/main/components/WelcomeDocument";
 import MainSkeleton from "./components/skeleton/MainSkeleton";
 import { CommonSpinner } from "./components/common/Spinner";
 import Document from "./pages/main/components/Document";
-const Home = lazy(() => import("./pages/main/Main"));
+const Main = lazy(() => import("./pages/main/Main"));
 
 function App() {
-  // const [theme, setTheme] = useState<"dark" | "light">("light")
-  // if (!("theme" in localStorage)) {
-  //   localStorage.setItem("theme", "light");
-  // }
-
-  // if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  //   localStorage.setItem("theme", "dark");
-  // }
-  // if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-  //   localStorage.setItem("theme", "light");
-  // }
-  // if (localStorage.theme === "dark") {
-  //   document.documentElement.classList.add("dark");
-  // } else {
-  //   document.documentElement.classList.remove("dark");
-  // }
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <meta name="theme-color" content="#1F1F1F" />
         <title>Malhuza</title>
         <link rel="canonical" href="http://mysite.com/example" />
         <link
@@ -84,7 +69,7 @@ function App() {
             path="/documents/"
             element={
               <Suspense fallback={<MainSkeleton/>}>
-                <Home />
+                <Main />
               </Suspense>
             }
           >

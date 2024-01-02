@@ -35,6 +35,10 @@ const SearchCommand = () => {
         e.preventDefault();
         toggle();
       }
+      if (e.key === "K" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        toggle();
+      }
     };
     document.addEventListener("keydown", down);
     return () => {
