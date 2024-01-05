@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
+
 const { SECRET_KEY } = process.env; 
 
 const authMiddleware = (req, res, next) => {
@@ -18,4 +19,4 @@ const authMiddleware = (req, res, next) => {
   });
 };
 
-module.exports = authMiddleware;
+export default authMiddleware;

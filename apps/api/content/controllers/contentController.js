@@ -1,10 +1,10 @@
-const Content = require('../models/content');
-const {contentSchema, paramsSchema, contentUpdateSchema} = require('../models/contentSchema')
+import Content from '../models/content.js'
+import {contentSchema, paramsSchema, contentUpdateSchema} from '../models/contentSchema.js'
 
 const contentController = {
   getContent: async (req, res) => {
     try {
-      const validationParams = paramsSchema.validate(req.query);
+      const validationParams = contentSchema.validate(req.query);
       if (validationParams.error) {
         return res.status(400).json({ error: validationParams.error.details[0].message });
       }
@@ -13,7 +13,8 @@ const contentController = {
         document_id: req.query.document_id,
       });
       if (!content) {
-        return res.status(404).json({ error: "Content not found" });
+        const newContent = await Content.create(req.query);
+        return res.status(200).json(newContent);
       }
       res.status(200).json(content);
     } catch (error) {
@@ -43,7 +44,7 @@ const contentController = {
           .json({ error: validationResult.error.details[0].message });
       }
       const updatedContent = await Content.findOneAndUpdate(
-        { document_id: req.params.document_id },
+        { document_id: req.body.document_id },
         req.body,
         { new: true }
       );
@@ -58,4 +59,4 @@ const contentController = {
 
 
 
-module.exports = contentController;
+export default contentController;

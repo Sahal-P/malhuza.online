@@ -20,7 +20,6 @@ services:
       - malhuza-network
     depends_on:
       - postgresql
-      - redis
       - rabbitmq
     # deploy:
     #   replicas: 3  # Set the desired number of replicas
@@ -80,14 +79,14 @@ services:
     networks:
       - malhuza-network
 
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    volumes:
-    - redis_data:/data
-    networks:
-      - malhuza-network
+  # redis:
+  #   image: redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #   - redis_data:/data
+  #   networks:
+  #     - malhuza-network
 
   worker:
     build: 
@@ -97,12 +96,12 @@ services:
     volumes:
       - ./apps/api/core:/app
     depends_on:
-      - redis
       - postgresql
+      - backend
     networks:
       - malhuza-network
       
 volumes:
-  redis_data:
+  # redis_data:
   postgresql_data:
   mongo_data:

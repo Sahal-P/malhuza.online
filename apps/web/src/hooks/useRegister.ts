@@ -1,21 +1,44 @@
-
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useState, ChangeEvent, FormEvent } from "react";
-// import { useAppDispatch } from "@/redux/hooks";
-// import { setAuth } from "@/redux/features/authSlice";
+import { toast } from "sonner";
+import useCookies from "./useCookies";
+import { useNavigate } from "react-router-dom";
+import useLoading from "./useLoading";
 
-// import {useCookies} from 'react-cookie'
+const Register = () => {
+  const {setAccessAndRefresh} = useCookies()
+  const navigate = useNavigate()
+  const load = useLoading()
+  return useMutation({
+    mutationKey: ['registerUser'],
+    mutationFn: async ( user : { username: string; email: string; password1: string; password2: string}) => {
+      load.onLoading(true)
+      const { data } = await axios.post("api/auth/register/", user);
+      setAccessAndRefresh({access: data.access, refresh: data.refresh})
+      return data;
+    },
+    onSuccess: () => {
+      load.onLoading(false)
+      navigate("/documents");
+      toast.success("user registerd", {duration:1000});
+    },
+    onError: () => {
+      load.onLoading(false)
+      toast.error("Failed to register user", {duration:1000});
+    },
+  });
+}
 
 export default function useRegister() {
-  // const [cookie, setCookie] = useCookies(["token"])
-  //   const dispatch = useAppDispatch()
-  const isLoading = false
+  const {mutate: register, isPending: isLoading} = Register()
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: "",
-    confirm_password: "",
+    password1: "",
+    password2: "",
   })
-  const {username, email, password, confirm_password } = formData
+  const {username, email, password1, password2 } = formData
 
   const onChange = (event: ChangeEvent<HTMLInputElement> ) => {
     const { name, value } = event.target;
@@ -23,21 +46,7 @@ export default function useRegister() {
   }
   const onSubmit = (event: FormEvent<HTMLFormElement> ) => {
     event.preventDefault();
-    console.log('submited', formData);
-    
-    // login({email, password})
-    // .then((res) => {
-    //   setCookie("token", JSON.stringify(res), {
-    //     path: "/",
-    //     maxAge: 3600, // Expires after 1hr
-    //     sameSite: true,
-    //     })
-    //   dispatch(setAuth())
-    //   toast.success("success")
-    //   router.push('/discovery')
-    // }).catch((err) => {
-    //   toast.error('error',err)
-    // })
+    register(formData)
   }
-  return {username, email, password, confirm_password, onChange, onSubmit, isLoading}
+  return {username, email, password1, password2, onChange, onSubmit, isLoading}
 }

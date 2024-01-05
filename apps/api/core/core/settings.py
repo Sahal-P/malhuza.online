@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-n%-j%r4&chjx42x67m8u!8&gf@_5$*1))7^wktbj&jxfk06ng+
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -146,6 +146,7 @@ else:
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000/",
         "http://127.0.0.1:3000/",
+        "http://192.168.1.4:3000/",
     ]
     
 ACCOUNT_AUTHENTICATION_METHOD = 'email'

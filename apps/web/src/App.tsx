@@ -15,9 +15,11 @@ const TermsConditions = lazy(
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import WelcomeDocument from "./pages/main/components/WelcomeDocument";
-import MainSkeleton from "./components/skeleton/MainSkeleton";
-import { CommonSpinner } from "./components/common/Spinner";
-import Document from "./pages/main/components/Document";
+import MainSkeleton, {
+  ContentSkeleton,
+} from "./components/skeleton/MainSkeleton";
+import { CommonSpinner, Loading } from "./components/common/Spinner";
+const Document = lazy(() => import("./pages/main/components/Document"));
 const Main = lazy(() => import("./pages/main/Main"));
 
 function App() {
@@ -42,7 +44,7 @@ function App() {
           media="(prefers-color-scheme: dark)"
         />
       </Helmet>
-
+      <Loading />
       <Routes>
         {/* <Route element={<PrivateRoute />}> */}
         <Route path="/" element={<Navigate to="/page" />} />
@@ -50,7 +52,7 @@ function App() {
         <Route
           path="/PrivacyPolicy"
           element={
-            <Suspense fallback={<CommonSpinner/>}>
+            <Suspense fallback={<CommonSpinner />}>
               <PrivacyPolicy />
             </Suspense>
           }
@@ -58,7 +60,7 @@ function App() {
         <Route
           path="/Terms&Conditions"
           element={
-            <Suspense fallback={<CommonSpinner/>}>
+            <Suspense fallback={<CommonSpinner />}>
               <TermsConditions />
             </Suspense>
           }
@@ -68,13 +70,21 @@ function App() {
           <Route
             path="/documents/"
             element={
-              <Suspense fallback={<MainSkeleton/>}>
+              <Suspense fallback={<MainSkeleton />}>
                 <Main />
               </Suspense>
             }
           >
             <Route path="" element={<WelcomeDocument />} />
-            <Route path=":documentId" element={<Document/>} />
+
+            <Route
+              path=":documentId"
+              element={
+                <Suspense fallback={<ContentSkeleton />}>
+                  <Document />
+                </Suspense>
+              }
+            />
           </Route>
         </Route>
         <Route element={<PublicRoute />}>

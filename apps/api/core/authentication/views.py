@@ -12,7 +12,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT
 from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSerializer, LogoutSerializer
-# Create your views here.
 
 
 class CustomUserDetailsView(UserDetailsView):

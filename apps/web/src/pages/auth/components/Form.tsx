@@ -36,7 +36,7 @@ export default function Form({
         {config.map((input, key) => (
           <>
           <Input
-            className="bg-white text-gray-600"
+            className="bg-white text-gray-600 dark:bg-document_bg dark:text-gray-200 border-gray-600"
             key={key}
             name={input.labelId}
             placeholder={input.labelText}
@@ -48,7 +48,7 @@ export default function Form({
           </>
         ))}
         <div className="flex justify-center">
-          <Button variant={"secondary"} type="submit" disabled={isLoading}>
+          <Button variant={"default"} type="submit" disabled={isLoading}>
             {isLoading ? <Spinner size={"default"} /> : `${btnTxt}`}
           </Button>
         </div>
