@@ -1,5 +1,5 @@
-const express = require('express');
-const path = require('path');
+import path from 'path'
+import express from 'express'
 
 const configureExpress = (app) => {
   // Set up view engine (assuming EJS)
@@ -12,4 +12,4 @@ const configureExpress = (app) => {
   app.use(express.static(path.join(__dirname, '..', 'public')));
 };
 
-module.exports = configureExpress;
+export default configureExpress;

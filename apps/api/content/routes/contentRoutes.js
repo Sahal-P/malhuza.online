@@ -1,11 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const contentController = require("../controllers/contentController");
+import {Router} from 'express'
+import contentController from "../controllers/contentController.js"
+
+const router = Router();
 
 router.get("/", contentController.getContent);
 
 router.post("/", contentController.createContent);
 
-router.put("/:document_id", contentController.updateContent);
+router.put("/", contentController.updateContent);
 
-module.exports = router;
+export default router;

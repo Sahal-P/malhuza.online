@@ -122,6 +122,7 @@ const Navigation: FC<NavigationProps> = () => {
       >
         <div
           role="button"
+          aria-label="collapse"
           onClick={collapse}
           className={cn(
             "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100",

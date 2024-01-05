@@ -104,6 +104,7 @@ const Toolbar: FC<ToolbarProps> = ({ initial_data, preview }) => {
             className="rounded-full opacity-0 group-hover/icon:opacity-100 transition text-muted-foreground text-xs"
             variant={"outline"}
             size={"icon"}
+            aria-label="remove icon"
           >
             <X className="h-4 w-4" />
           </Button>

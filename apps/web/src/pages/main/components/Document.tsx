@@ -6,13 +6,14 @@ import { useSelectedDocument } from "@/hooks/useDocuments";
 import Cover from "./Cover";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense, lazy } from "react";
-import Editor from "./Editor";
+// import Editor from "./Editor";
 import { useContent, useUpdateContent } from "@/hooks/useContent";
 import { useParams } from "react-router-dom";
 import { useDebounce } from "usehooks-ts";
 
 
 const Toolbar = lazy(() => import("./Toolbar"));
+const Editor = lazy(() => import("./Editor"));
 
 interface DocumentProps {}
 
@@ -61,18 +62,16 @@ const Document: FC<DocumentProps> = () => {
               <Toolbar initial_data={document} />
             </Suspense>
             {isFetched && (
-              <Editor
+              <Suspense fallback={<ToolBarSkeleton />}>
+                <Editor
                 onChange={(value: string) => {
-                  // updateContent({document_id: document.id, content: value})
                   setContent(value)
                 }}
                 initialContent={content}
               />
+              </Suspense>
+              
             )}
-
-            {/* <Suspense fallback={<p>Loading...</p>}>
-        <CodeBlock codeString={code} language="python" />
-        </Suspense> */}
           </div>
         </div>
       ) : (

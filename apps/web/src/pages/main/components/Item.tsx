@@ -68,6 +68,7 @@ const Item = ({
           role="button"
           className="h-full rounded-sm hover:bg-neutral-300 hover:dark:bg-neutral-600 mr-1"
           onClick={handleExpand}
+          aria-label="expand"
         >
           <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground/50" />
         </div>
@@ -89,7 +90,7 @@ const Item = ({
         <div className="ml-auto flex items-center gap-x-2">
         <DropdownMenu>
           <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
-            <div role="button" className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600">
+            <div role="button" className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600" aria-label="menu">
               <MoreHorizontal className="h-4 w-4 text-muted-foreground"/>
             </div>
           </DropdownMenuTrigger>
@@ -106,6 +107,7 @@ const Item = ({
             role="button"
             className={cn("opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600", level===6 ? 'hidden' : 'block')}
             onClick={onCreateHandle}
+            aria-label="add document"
           >
             <Plus className="h-4 w-4 text-muted-foreground" />
           </div>

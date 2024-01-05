@@ -3,7 +3,7 @@ import useRegister from "@/hooks/useRegister";
 import LoginWith from "./LoginWith";
 
 export default function RegisterForm() {
-  const { username, email, password, confirm_password, isLoading, onChange, onSubmit } = useRegister();
+  const { username, email, password1, password2, isLoading, onChange, onSubmit } = useRegister();
   const config = [
     {
       labelText: "Username",
@@ -21,17 +21,17 @@ export default function RegisterForm() {
     },
     {
       labelText: "Password",
-      labelId: "password",
+      labelId: "password1",
       type: "password",
-      value: password,
+      value: password1,
       required: true,
       link: true,
     },
     {
       labelText: "Confirm password",
-      labelId: "confirm_password",
-      type: "confirm_password",
-      value: confirm_password,
+      labelId: "password2",
+      type: "password",
+      value: password2,
       required: true,
       link: true,
     },

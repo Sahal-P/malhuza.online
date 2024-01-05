@@ -29,7 +29,7 @@ const Menu = ({ documentId }: MenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={'sm'} variant={'ghost'} >
+        <Button size={'sm'} variant={'ghost'} aria-label="content menu" >
             <MoreHorizontal className="h-6 w-6"/>
         </Button>
       </DropdownMenuTrigger>

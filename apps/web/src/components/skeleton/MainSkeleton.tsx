@@ -30,6 +30,19 @@ const ItemSkeleton = ({ main }: { main?: boolean }) => {
   );
 };
 
+export const ContentSkeleton = () => {
+  return (
+    <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg">
+      {/* <div className="w-full h-full  flex justify-center items-center z-[9999999999]">
+<Spinner size={"lg"}/>
+</div> */}
+      <div className="">
+        <ItemSkeleton main={true} />
+      </div>
+    </main>
+  );
+};
+
 const MainSkeleton: FC<MainSkeletonProps> = () => {
   return (
     <div className="h-screen flex dark:bg-[#1F1F1F] ">
@@ -63,14 +76,7 @@ const MainSkeleton: FC<MainSkeletonProps> = () => {
           </div>
         </aside>
       </>
-      <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg">
-        {/* <div className="w-full h-full  flex justify-center items-center z-[9999999999]">
-      <Spinner size={"lg"}/>
-      </div> */}
-        <div className="">
-          <ItemSkeleton main={true} />
-        </div>
-      </main>
+      <ContentSkeleton />
     </div>
   );
 };

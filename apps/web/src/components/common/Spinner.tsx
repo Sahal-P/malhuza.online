@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { Loader } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
+import useLoading from "@/hooks/useLoading";
 
 const spinnerVariants = cva("text-muted-foreground animate-spin", {
   variants: {
@@ -27,6 +28,17 @@ export const CommonSpinner = () => {
       <Spinner size={"lg"} />
     </div>
   );
+};
+
+export const Loading = () => {
+  const load = useLoading();
+  if (load.isLoading) {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999999]">
+        <Spinner size={"lg"} />
+      </div>
+    );
+  }
 };
 
 export default Spinner;

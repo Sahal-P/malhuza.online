@@ -16,28 +16,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('id', 'email', 'username', 'is_verified', 'is_active', 'auth_provider','created_at', 'picture')
 
-class CustomLoginSerializer(LoginSerializer):
-    
-    def _validate_email(self, email, password):
-        if email and password:
-            try:
-                user = User.objects.get(email=email)
-                if user.check_password(password):
-                    return user
-            except User.DoesNotExist:
-                raise exceptions.NotFound('Invalid email or password')
-        else:
-            msg = _('Must include "email" and "password".')
-            raise exceptions.ValidationError(msg)
-    
-    def get_auth_user_using_allauth(self, username, email, password):
-        return self._validate_email(email, password)
-    
-class RegisterSerializer(serializers.Serializer):
-    class Meta:
-        model = User
-        fields = '__all__'
-
 class GoogleSocialAuthSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
 

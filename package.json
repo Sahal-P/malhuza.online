@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev-web": "npm --prefix ./apps/web run dev",
+    "dev-web": "npm --prefix ./apps/web run dev -- --host",
     "preview-web": "npm --prefix ./apps/web run preview",
     "build-web": "npm --prefix ./apps/web run build"
   }
