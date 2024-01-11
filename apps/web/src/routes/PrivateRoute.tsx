@@ -1,12 +1,7 @@
-import { FC } from 'react'
 import  Cookies  from 'js-cookie';
 import { Outlet, Navigate } from "react-router-dom";
 
-interface PrivateRouteProps {
-  
-}
-
-const PrivateRoute: FC<PrivateRouteProps> = () => {
+const PrivateRoute = () => {
   const Access = Cookies.get(import.meta.env.VITE_ACCESS_TOKEN)
   const Refresh = Cookies.get(import.meta.env.VITE_REFRESH_TOKEN)
   
