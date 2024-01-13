@@ -1,17 +1,13 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "./components/Navigation";
-// import Spinner from "@/components/common/Spinner";
-// import Test from "@/components/common/Test";
 import UserProvider from "./components/UserProvider";
 import { toast } from "sonner";
 import { Outlet } from "react-router-dom";
 import SearchCommand from "@/components/common/searchCommand";
 import SettingsModal from "@/components/modals/SettingsModal";
 import CoverImageModal from "@/components/modals/CoverImage";
-// import ChatBox from "./components/Chatbox";
-interface MainProps {}
 
-const Main: FC<MainProps> = () => {
+const Main = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
