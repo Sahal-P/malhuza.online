@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface HeadingProps {}
-
-const Heading: FC<HeadingProps> = () => {
+const Heading = () => {
   const navigate = useNavigate()
 
   return (

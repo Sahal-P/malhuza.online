@@ -1,9 +1,6 @@
 import Image from "@/components/common/Image";
-import { FC } from "react";
 
-interface HeroesProps {}
-
-const Heroes: FC<HeroesProps> = () => {
+const Heroes = () => {
   return (
     <div className="flex flex-col items-center justify-center max-w-5xl overflow-y-hidden">
       <div className="flex items-center">

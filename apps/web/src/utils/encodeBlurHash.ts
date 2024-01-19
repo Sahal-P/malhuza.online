@@ -1,5 +1,4 @@
 import { encode } from "blurhash";
-
 const IMG_URL = import.meta.env.VITE_S3_MEDIA_URL
 
 const getImageData = (image: HTMLImageElement): ImageData => {
@@ -10,7 +9,6 @@ const getImageData = (image: HTMLImageElement): ImageData => {
   if (!context) {
     throw new Error('Could not get 2D context');
   }
-
   context.drawImage(image, 0, 0);
   return context.getImageData(0, 0, image.width, image.height);
 };
@@ -19,7 +17,6 @@ const encodeImageToBlurhash = async (src: string): Promise<string> =>
   new Promise((resolve, reject) => {
     const img = new Image();
     img.src = src;
-
     img.onload = () => {
       try {
         const imageData = getImageData(img)
@@ -28,29 +25,22 @@ const encodeImageToBlurhash = async (src: string): Promise<string> =>
       } catch (error) {
         reject(error)
       }
-      
     };
     img.onerror = (error) => reject(new Error(`Error loading image: ${error}`));
   });
 
-
-
 export const readFileAsDataUrl = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
     reader.onload = () => {
       resolve(reader.result as string);
     };
-
     reader.onerror = (error) => {
       reject(error);
     };
-
     reader.readAsDataURL(file);
   });
 };
-
 
 export const defaultAvatarHash = () => {
   return [
@@ -77,7 +67,6 @@ export const defaultAvatar = () => {
     {"url": `${IMG_URL}images/avatar/7.png`, "hash": "UCJ?]$f80DbE0af8}$f$0Jf70Jf%I~ays4kB"},
     {"url": `${IMG_URL}images/avatar/8.png`, "hash": "UCLWtpxV00$w9Qfi-|br00S#uls+5_RVISxV"},
     {"url": `${IMG_URL}images/avatar/9.png`, "hash": "UEK^4s$|B1Wmo{t5wIja02IX03oz~9Ir57j]"},
-    
   ];
 };
 
