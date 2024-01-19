@@ -1,12 +1,9 @@
-import { FC } from "react";
 import { Helmet } from "react-helmet-async";
 import Heading from "./components/Heading";
 import Heroes from "./components/Heroes";
 import Footer from "./components/Footer";
 
-interface MarketingProps {}
-
-const Marketing: FC<MarketingProps> = () => {
+const Marketing = () => {
   return (
     <>
       <Helmet>

@@ -2,10 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute ";
-// import {Helmet} from "react-helmet";
 import { Helmet } from "react-helmet-async";
-
-// const Spinner = lazy(() => import("./components/common/Spinner"));
 import Marketing from "./pages/marketing/Marketing";
 
 const PrivacyPolicy = lazy(() => import("./pages/privacy_terms/PrivacyPolicy"));

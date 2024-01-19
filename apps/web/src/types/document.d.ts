@@ -28,7 +28,6 @@ interface ArchiveDocument extends BaseDocument {
   icon?: string;
 }
 
-// Define the Zod validator for the Document type
 export const DocumentValidator = z.object({
   title: z.string().max(355).optional(),
   user_id: z.string(),
@@ -40,7 +39,6 @@ export const DocumentValidator = z.object({
   is_published: z.boolean(),
 });
 
-// Validate a document against the Zod type
 export const validateDocument = (data): Document => {
   try {
     return DocumentValidator.parse(data);

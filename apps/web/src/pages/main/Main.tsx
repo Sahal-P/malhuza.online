@@ -11,12 +11,11 @@ const Main = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
-    
     const handleConnectionChange = () => {
       setTimeout(() => {
         const isOnlineNow = navigator.onLine;
         setIsOnline(isOnlineNow);
-      }, 300); // Adjust the timeout value as needed
+      }, 300);
     };
 
     window.addEventListener("online", handleConnectionChange);
@@ -26,10 +25,14 @@ const Main = () => {
     if (isOnline) {
       toast.success("Connected", { position: "top-center", duration: 1000 });
     } else {
-      toast.loading("Reconnecting..", { position: "top-center", dismissible: false, duration: 100000 });
+      toast.loading("Reconnecting..", {
+        position: "top-center",
+        dismissible: false,
+        duration: 100000,
+      });
     }
 
-    handleConnectionChange(); // Initial check
+    handleConnectionChange();
     return () => {
       window.removeEventListener("online", handleConnectionChange);
       window.removeEventListener("offline", handleConnectionChange);
@@ -38,17 +41,16 @@ const Main = () => {
 
   return (
     <UserProvider>
-
-   <div className="h-screen flex dark:bg-[#1F1F1F] overflow-hidden">
-    <Navigation/>
-      <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg scrollbar-thin scrollbar-thumb-secondary">
-        <SearchCommand />
-        <SettingsModal/>
-        <CoverImageModal/>
-        <Outlet/>
-      </main>
-   </div>
-   </UserProvider>
+      <div className="h-screen flex dark:bg-[#1F1F1F] overflow-hidden">
+        <Navigation />
+        <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg scrollbar-thin scrollbar-thumb-secondary">
+          <SearchCommand />
+          <SettingsModal />
+          <CoverImageModal />
+          <Outlet />
+        </main>
+      </div>
+    </UserProvider>
   );
 };
 

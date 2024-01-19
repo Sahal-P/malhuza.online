@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { FC } from "react";
 import { Link } from "react-router-dom";
 
-interface FooterProps {}
-
-const Footer: FC<FooterProps> = () => {
+const Footer = () => {
   return (
     <div className="flex items-center w-full p-6 bg-background dark:bg-document_bg z-50 fixed bottom-0">
         <div className="md:ml-auto w-full justify-between md:justify-end flex items-center gap-x-2 text-muted-foreground">
