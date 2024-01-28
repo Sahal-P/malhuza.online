@@ -1,0 +1,8 @@
+TYPE = "type"
+ARCHIVE = "Archive"
+RESTORE = "Restore"
+SIDEBAR = "Sidebar"
+ID = "id"
+BYID = "ById"
+DEFAULT = "default"
+COVERIMAGE = "CoverImage"
