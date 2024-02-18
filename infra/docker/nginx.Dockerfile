@@ -1,4 +1,4 @@
 FROM nginx:latest
 
-COPY /config/nginx.conf /etc/nginx/sites-enabled/
+# COPY /infra/config/nginx.conf /etc/nginx/conf.d/default.conf
 
