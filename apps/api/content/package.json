@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js --ignore '../../web/'",
+    "start": "node index.js",
     "dev": "nodemon index.js --ignore '../../web/'"
   },
   "keywords": [],
