@@ -1,6 +1,7 @@
 Django
 djangorestframework
 celery[redis]
+eventlet
 blurhash-python
 Pillow
 boto3
