@@ -19,6 +19,16 @@ import { CommonSpinner, Loading } from "./components/common/Spinner";
 const Document = lazy(() => import("./pages/main/components/Document"));
 const Main = lazy(() => import("./pages/main/Main"));
 
+const NotFound = () => {
+  return (
+    <>
+    <div>
+      Not Found
+    </div>
+    </>
+  )
+}
+
 function App() {
   return (
     <>
@@ -88,6 +98,7 @@ function App() {
           <Route path="/sign-in" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
