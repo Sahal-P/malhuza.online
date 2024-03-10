@@ -43,7 +43,7 @@ const Main = () => {
     <UserProvider>
       <div className="h-screen flex dark:bg-[#1F1F1F] overflow-hidden">
         <Navigation />
-        <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg scrollbar-thin scrollbar-thumb-secondary">
+        <main className="flex-1 h-full overflow-y-auto bg-[#ffffff] dark:bg-document_bg scrollbar-thin scrollbar-thumb-primary scrollbar-corner-sidebar scrollbar-track-secondary ">
           <SearchCommand />
           <SettingsModal />
           <CoverImageModal />
