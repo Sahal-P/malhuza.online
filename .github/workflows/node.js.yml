@@ -33,4 +33,4 @@ jobs:
         echo "${{secrets.PROD_WEB_ENV}}" > .env
     - run: export NODE_OPTIONS=--max-old-space-size=32768
     - run: npm ci
-    - run: npm run build
+    - run: NODE_OPTIONS='--max_old_space_size=4096' npm run build
