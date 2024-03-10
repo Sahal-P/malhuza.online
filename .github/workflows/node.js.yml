@@ -42,3 +42,6 @@ jobs:
     - name: Content Service Install Dependencie
       working-directory: 'apps/api/content'
       run: npm ci
+    - name: Restart Content Service
+      working-directory: 'apps/api/content'
+      run: pm2 restart contentService
