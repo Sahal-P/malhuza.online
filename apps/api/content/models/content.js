@@ -5,6 +5,6 @@ const ContentSchema = new mongoose.Schema({
   content: { type: String, default: undefined }
 });
 
-const Content = mongoose.model('Content', ContentSchema);
+const Content = mongoose.model('content', ContentSchema);
 
 export default Content;

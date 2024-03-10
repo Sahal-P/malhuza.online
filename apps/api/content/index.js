@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 app.use(morgan("combined"));
 
 
-app.use("/", contentRouter);
+app.use("/api-content/", contentRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send("Something went wrong!");
