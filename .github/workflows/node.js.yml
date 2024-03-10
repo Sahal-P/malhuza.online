@@ -34,3 +34,11 @@ jobs:
     - run: export NODE_OPTIONS=--max-old-space-size=32768
     - run: npm ci
     - run: NODE_OPTIONS='--max_old_space_size=4096' npm run build
+    - name: Content Service Set Env 
+      working-directory: 'apps/api/content'
+      run: |
+        touch .env
+        echo "${{secrets.PROD_CONTENT_ENV}}" > .env
+    - name: Content Service Install Dependencie
+      working-directory: 'apps/api/content'
+      run: npm ci
