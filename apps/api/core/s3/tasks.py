@@ -8,6 +8,7 @@ from PIL import Image as PILImage
 @shared_task
 def encodeImageToBlurHash(id, image_data):
     try:
+        print(f"Processing encodeImageToBlurHash task with id={id}")
         image = PILImage.open(ContentFile(image_data))
         hash = blurhash.encode(image=image, x_components=4, y_components=3)
         instance = Document.objects.get(id=id)

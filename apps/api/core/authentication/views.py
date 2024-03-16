@@ -12,7 +12,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT
 from authentication.serializers import GoogleSocialAuthSerializer, CustomUserSerializer, LogoutSerializer
-
+from .models import User
 
 class CustomUserDetailsView(UserDetailsView):
     serializer_class = CustomUserSerializer
@@ -34,7 +34,20 @@ class GoogleSocialAuthView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         data = ((serializer.validated_data)['auth_token'])
         return Response(data, status=HTTP_200_OK)
+    
+    
 
+class CustomUsersDetailsView(GenericAPIView):
+    serializer_class = CustomUserSerializer    
+    def get(self, request: Request) -> Response:
+
+        users = User.objects.all()
+        serializer = CustomUserSerializer(users, many=True)
+        return Response(data=serializer.data, status=HTTP_200_OK)
+    
+    
+    
+    
 class LogoutAPIView(GenericAPIView):
     serializer_class = LogoutSerializer
 
